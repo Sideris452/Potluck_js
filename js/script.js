@@ -10,10 +10,13 @@ const guestList = document.querySelector(".guest-list");
 const guestCount = document.querySelector(".attendance");
 // alert when guest list is full (not yet visible)
 const guestFull = document.querySelector(".alert");
+// assign button
+const assignButton = document.querySelector(".assign");
+// assigned items
+const assignedItems = document.querySelector(".assigned-items");
 
 addGuestButton.addEventListener("click", function () {
   const guest = guestInput.value;
-  // console.log(guest);
   if (guest !== "") {
     addToList(guest);
     updateGuestCount();
@@ -21,15 +24,15 @@ addGuestButton.addEventListener("click", function () {
   }
 });
 
-const clearInput = function () {
-  guestInput.value = "";
-};
-
 const addToList = function (guest) {
   const listItem = document.createElement("li");
   listItem.innerText = guest;
   guestList.append(listItem);
 };
+
+const clearInput = function () {
+    guestInput.value = "";
+  };
 
 const updateGuestCount = function () {
   const guests = document.querySelectorAll(".guest-list li");
@@ -42,3 +45,37 @@ const updateGuestCount = function () {
     guestFull.classList.remove("hide");
   }
 };
+
+const assignedItems = function () {
+    const potluckItems = [
+        "cheese",
+        "crackers",
+        "fresh fruit",
+        "coleslaw",
+        "apple cake",
+        "gazpacho",
+        "baguette",
+        "egg salad",
+        "potato salad",
+        "summer rolls",
+        "hummus",
+        "cookies" 
+    ];
+
+    const allGuests = document.querySelector(".guest-list li");
+
+    for (let guest of allGuests) {
+        let randomPotluckIndex = Math.floor(Math.random() * potluckItems.length);
+        let randomPotluckItem = potluckItems[randomPotluckIndex];
+        let listItem = document.createElement("li");
+
+        listItem.innerText =`${guest.innerText} is bringing ${randomPotluckItem}.`;
+        assignedItems.append(listItem);
+        potluckItems.splice(randomPotluckIndex, 1);
+    }
+};
+
+assignButton.addEventListener("click", function () {
+    assignItems();
+    assignButton.disabled = true;
+});
